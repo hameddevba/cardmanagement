@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="29102023-1" author="otlig">
+        <createTable tableName="users">
+            <column name="id" type="number" autoIncrement="true"/>
+            <column name="email" type="varchar2(50)" />
+            <column name="username" type="varchar2(50)" />
+            <column name="password" type="varchar2(120)" />
+        </createTable>
+        <addPrimaryKey tableName="users" columnNames="id"/>
+    </changeSet>
+    <changeSet id="29102023-2" author="otlig">
+        <createTable tableName="roles">
+            <column name="id" type="number" autoIncrement="true"/>
+            <column name="name" type="varchar2(20)" />
+        </createTable>
+        <addPrimaryKey tableName="roles" columnNames="id"/>
+    </changeSet>
+
+    <changeSet id="29102023-3" author="otlig">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="number" autoIncrement="true"/>
+            <column name="role_id" type="number" />
+        </createTable>
+        <addPrimaryKey tableName="user_roles" columnNames="user_id,role_id"/>
+        <addForeignKeyConstraint constraintName="user_id_fk" baseTableName="user_roles"
+                                 baseColumnNames="user_id" referencedTableName="users" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="role_id_fk" baseTableName="user_roles"
+                                 baseColumnNames="role_id" referencedTableName="roles" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="29102023-4" author="otlig">
+        <insert tableName="roles">
+            <column name="name" value="ROLE_ADMIN"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

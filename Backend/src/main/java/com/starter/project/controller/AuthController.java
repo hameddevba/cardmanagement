@@ -119,7 +119,7 @@ public class AuthController {
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
+            Role userRole = roleRepository.findByName(RoleEnum.ADMIN)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
@@ -151,7 +151,7 @@ public class AuthController {
         Set<Role> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
+            Role userRole = roleRepository.findByName(RoleEnum.ADMIN)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {

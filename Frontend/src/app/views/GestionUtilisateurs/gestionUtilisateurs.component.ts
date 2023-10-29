@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/shared/auth.service';
 import { REQUIRED, currency_list , roles} from 'src/app/shared/constants';
 import { allowNavigation, ruler } from 'src/app/shared/pagination';
 import { NumberedPagination } from 'src/app/shared/numbered-pagination.interface';
-import {Rol} from "../../model/Rol";
+import {Role} from "../../model/Role";
 import { Router } from '@angular/router';
 
 export interface CacheGestionUtilisateurs {
@@ -22,9 +22,9 @@ export class GestionUtilisateursComponent implements OnInit {
   editCache: { [key: string]: CacheGestionUtilisateurs } = {};
   rapports: GestionUtilisateurs[] = [];
   aideuser: GestionUtilisateurs[] = [];
-  rol: Rol[] = [];
-  roles: Rol[] = [];
-  aiderol: Rol[] = [];
+  role: Role[] = [];
+  roles: Role[] = [];
+  aiderol: Role[] = [];
   i=0;
   errorVisible: boolean = false;
   sucessVisible: boolean = false;
@@ -54,7 +54,7 @@ export class GestionUtilisateursComponent implements OnInit {
     });
   }
 
-  updateEditCachetrue(r: Rol, username2: String, ischek: Boolean): void {
+  updateEditCachetrue(r: Role, username2: String, ischek: Boolean): void {
     this.rapports.forEach(item => {
         if(ischek) {
           item.roles.push(r);
@@ -152,7 +152,7 @@ export class GestionUtilisateursComponent implements OnInit {
       this.rapports = data;
       this.i=0;
       this.rapports.forEach((item) =>{
-        this.rol.push(item.roles[this.i]);
+        this.role.push(item.roles[this.i]);
         ++this.i;
       });
       //this.saveUser();
@@ -177,7 +177,7 @@ export class GestionUtilisateursComponent implements OnInit {
 
     return this.isrole;
   }
-  onCheckboxChange(e: any, username: String, r: Rol) {
+  onCheckboxChange(e: any, username: String, r: Role) {
       this.updateEditCachetrue(r,username,e.target.checked);
   }
 

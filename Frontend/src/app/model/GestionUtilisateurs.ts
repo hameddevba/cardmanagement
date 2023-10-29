@@ -1,8 +1,8 @@
-import {Rol} from "./Rol";
+import {Role} from "./Role";
 
 export interface GestionUtilisateurs {
   username: string,
   email: string,
   password: string,
-  roles: Rol[]
+  roles: Role[]
 }

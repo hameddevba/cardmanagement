@@ -1,6 +1,5 @@
 package com.starter.project;
 
-import com.starter.project.dao.*;
 import com.starter.project.model.Role;
 import com.starter.project.model.enums.RoleEnum;
 import com.starter.project.dao.RoleDao;
@@ -23,7 +22,7 @@ public class ProjectApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Role r = new Role(RoleEnum.ROLE_ADMIN);
+        Role r = new Role(RoleEnum.ADMIN);
         roleDao.save(r);
     }
 }

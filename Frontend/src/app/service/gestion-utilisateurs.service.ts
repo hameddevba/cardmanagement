@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { GestionUtilisateurs } from '../model/GestionUtilisateurs';
-import {Rol} from "../model/Rol";
+import {Role} from "../model/Role";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class GestionUtilisateursService {
     return this.http.get<GestionUtilisateurs[]>(environment.apiURL + `/api/auth/users`);
   }
   findRoles() {
-    return this.http.get<Rol[]>(environment.apiURL + `/api/auth/roles`);
+    return this.http.get<Role[]>(environment.apiURL + `/api/auth/roles`);
   }
   deleteUser(gestionUtilisateurs: GestionUtilisateurs) {
     const headers = new HttpHeaders().set("Access-Control-Allow-Origin", "*");
