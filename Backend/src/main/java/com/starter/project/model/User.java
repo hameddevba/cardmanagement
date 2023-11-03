@@ -2,36 +2,28 @@ package com.starter.project.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
-        })
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(max = 20)
+    @Column(name = "user_name")
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
+    @Column(name = "email")
     private String email;
 
-    //@NotBlank
-    @Size(max = 120)
+    @Column(name = "pass_word")
     private String password;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "agency_id")
+    private Agency agency;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -48,10 +40,12 @@ public class User {
         this.password = password;
         this.roles = roles;
     }
-    public User(String username, String email, String password) {
+
+    public User(String username, String email, String password, Agency agency) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.agency = agency;
     }
 
     public Long getId() {
@@ -92,5 +86,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Agency getAgency() {
+        return agency;
+    }
+
+    public void setAgency(Agency agency) {
+        this.agency = agency;
     }
 }

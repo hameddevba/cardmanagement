@@ -1,6 +1,6 @@
 package com.starter.project.dto;
 
-public class UserDto {
+public class LoginDto {
     String banque;
     String password;
 
@@ -20,7 +20,7 @@ public class UserDto {
         this.password = password;
     }
 
-    public UserDto(String banque, String password) {
+    public LoginDto(String banque, String password) {
         this.banque = banque;
         this.password = password;
     }

@@ -95,7 +95,7 @@ import {
   cilAvTimer,
   cilDescription,
   cilFolderOpen,
-  cilArrowThickFromLeft
+  cilArrowThickFromLeft,
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -195,7 +195,7 @@ export const iconSubset = {
   cilAvTimer,
   cilDescription,
   cilFolderOpen,
-  cilArrowThickFromLeft
+  cilArrowThickFromLeft,
 };
 
 export enum IconSubset {
@@ -292,8 +292,8 @@ export enum IconSubset {
   cilBank = 'cilBank',
   cilCheckAlt = 'cilCheckAlt',
   cilX = 'cilX',
-cilAvTimer='cilAvTimer',
-  cilDescription='cilDescription',
-cilFolderOpen='cilFolderOpen',
-  cilArrowThickFromLeft='cilArrowThickFromLeft'
+  cilAvTimer = 'cilAvTimer',
+  cilDescription = 'cilDescription',
+  cilFolderOpen = 'cilFolderOpen',
+  cilArrowThickFromLeft = 'cilArrowThickFromLeft',
 }

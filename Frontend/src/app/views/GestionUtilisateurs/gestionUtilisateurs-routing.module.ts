@@ -8,14 +8,13 @@ const routes: Routes = [
     path: '',
     component: GestionUtilisateursComponent,
     data: {
-      title: $localize`Gestion Utilisateurs`
-    }
-  }
+      title: $localize`Gestion Utilisateurs`,
+    },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class GestionUtilisateursRoutingModule {
-}
+export class GestionUtilisateursRoutingModule {}

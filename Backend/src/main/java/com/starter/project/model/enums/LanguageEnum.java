@@ -1,5 +1,6 @@
 package com.starter.project.model.enums;
 
-public enum ResidentEnum {
-    NA,NR,R
+public enum LanguageEnum {
+    FR,
+    AR
 }

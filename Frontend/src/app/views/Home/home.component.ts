@@ -14,10 +14,4 @@ export enum Colors {
 @Component({
   template: '',
 })
-export class HomeComponent {
-
-
-  constructor() {
-  }
-
-}
+export class HomeComponent {}

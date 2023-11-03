@@ -1,28 +1,29 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { GestionUtilisateurs } from '../model/GestionUtilisateurs';
-import {Role} from "../model/Role";
+import { User } from '../model/GestionUtilisateurs';
+import { Role } from '../model/Role';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GestionUtilisateursService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   findAll() {
-    return this.http.get<GestionUtilisateurs[]>(environment.apiURL + `/api/auth/users`);
+    return this.http.get<User[]>(environment.apiURL + `/api/auth/users`);
   }
   findRoles() {
     return this.http.get<Role[]>(environment.apiURL + `/api/auth/roles`);
   }
-  deleteUser(gestionUtilisateurs: GestionUtilisateurs) {
-    const headers = new HttpHeaders().set("Access-Control-Allow-Origin", "*");
-    return this.http.put<GestionUtilisateurs[]>(environment.apiURL + '/api/auth/signdel', gestionUtilisateurs, { headers });
+  deleteUser(username: string) {
+    return this.http.delete<User[]>(
+      environment.apiURL + '/api/auth/' + username,
+    );
   }
-  update(gestionUtilisateurs: GestionUtilisateurs) {
-    const headers = new HttpHeaders()
-      .set("Access-Control-Allow-Origin", "*");
-    return this.http.put<GestionUtilisateurs[]>(environment.apiURL + '/api/auth/signput', gestionUtilisateurs, { headers });
+  update(user: User) {
+    return this.http.put<User[]>(
+      environment.apiURL + '/api/auth/signput',
+      user,
+    );
   }
-
 }

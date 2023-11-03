@@ -1,26 +1,31 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { User } from './user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
   constructor(
     public authService: AuthService,
-    public router: Router
-  ) { }
+    public router: Router,
+  ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  ): Observable<boolean> | Promise<boolean> | boolean {
     if (this.authService.isLoggedIn !== true) {
-      window.alert("Access not allowed!");
-      this.router.navigate(['login'])
+      window.alert('Access not allowed!');
+      this.router.navigate(['login']);
     }
     const currentUser: User | undefined = this.authService.currentUserValue;
-    if (route.data['roles'] && currentUser && currentUser.roles.filter((role) => route.data['roles'].includes(role)).length < 1) {
+    if (
+      route.data['roles'] &&
+      currentUser &&
+      currentUser.roles.filter((role) => route.data['roles'].includes(role))
+        .length < 1
+    ) {
       // role not authorised so redirect to home page
       this.router.navigate(['/']);
       return false;

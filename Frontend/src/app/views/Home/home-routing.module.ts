@@ -8,14 +8,13 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     data: {
-      title: $localize`Home`
-    }
-  }
+      title: $localize`Home`,
+    },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class HomeRoutingModule {
-}
+export class HomeRoutingModule {}

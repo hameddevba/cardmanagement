@@ -8,13 +8,14 @@ import {
   ButtonModule,
   CardModule,
   FormModule,
-  GridModule, ModalModule,
+  GridModule,
+  ModalModule,
   NavModule,
   PaginationModule,
   ProgressModule,
   TableModule,
   TabsModule,
-  ToastModule
+  ToastModule,
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
@@ -23,7 +24,6 @@ import { GestionUtilisateursComponent } from './gestionUtilisateurs.component';
 import { HttpClientModule } from '@angular/common/http';
 import { GestionUtilisateursRoutingModule } from './gestionUtilisateurs-routing.module';
 import { GestionUtilisateursService } from '../../service/gestion-utilisateurs.service';
-
 
 @NgModule({
   imports: [
@@ -47,10 +47,9 @@ import { GestionUtilisateursService } from '../../service/gestion-utilisateurs.s
     ToastModule,
     HttpClientModule,
     PaginationModule,
-    ModalModule
+    ModalModule,
   ],
   declarations: [GestionUtilisateursComponent],
-  providers: [GestionUtilisateursService]
+  providers: [GestionUtilisateursService],
 })
-export class GestionUtilisateursModule {
-}
+export class GestionUtilisateursModule {}

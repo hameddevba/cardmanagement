@@ -14,7 +14,7 @@ import {
   ProgressModule,
   TableModule,
   TabsModule,
-  ToastModule
+  ToastModule,
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
@@ -44,9 +44,8 @@ import { HttpClientModule } from '@angular/common/http';
     TableModule,
     ToastModule,
     HttpClientModule,
-    PaginationModule
+    PaginationModule,
   ],
   declarations: [HomeComponent],
 })
-export class HomeModule {
-}
+export class HomeModule {}

@@ -1,12 +1,12 @@
 package com.starter.project.controller;
 
+import com.starter.project.dao.AgencyDao;
 import com.starter.project.dao.RoleDao;
 import com.starter.project.dao.UserDao;
 import com.starter.project.dto.RoleDto;
 import com.starter.project.dto.UserDetailDto;
 import com.starter.project.dto.request.LoginRequest;
-import com.starter.project.dto.request.SigndeleteRequest;
-import com.starter.project.dto.request.SignupRequest;
+import com.starter.project.dto.request.UserDto;
 import com.starter.project.dto.response.JwtResponse;
 import com.starter.project.dto.response.MessageResponse;
 import com.starter.project.jwt.JwtUtils;
@@ -45,6 +45,9 @@ public class AuthController {
     RoleDao roleRepository;
 
     @Autowired
+    AgencyDao agencyDao;
+
+    @Autowired
     PasswordEncoder encoder;
 
     @Autowired
@@ -66,16 +69,15 @@ public class AuthController {
     @GetMapping("/users")
     public ResponseEntity<List<UserDetailDto>> getAllUsers() {
         List<User> users = userRepository.findAll();
-        users.forEach(user -> {
-            user.setPassword("");
-        });
         return ResponseEntity.ok(mapper.toDto(users));
     }
+
     @GetMapping("/roles")
     public ResponseEntity<List<RoleDto>> getAllRoles() {
         List<Role> roles = roleRepository.findAll();
         return ResponseEntity.ok(roleMapper.toDto(roles));
     }
+
     @PostMapping("/signin")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -97,25 +99,26 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody UserDto userDto) {
+        if (userRepository.existsByUsername(userDto.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(userDto.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+        User user = new User(userDto.getUsername(),
+                userDto.getEmail(),
+                encoder.encode(userDto.getPassword()),
+                agencyDao.findByCode(userDto.getCodeAgency()).orElse(null));
 
-        Set<String> strRoles = signUpRequest.getRole();
+        Set<String> strRoles = userDto.getRoles();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
@@ -137,18 +140,9 @@ public class AuthController {
     }
 
     @PutMapping("/signput")
-    public ResponseEntity<MessageResponse> ModifUser(@Valid @RequestBody User signUpRequest) {
-        User userSaved;
-        if (!userRepository.existsByUsername(signUpRequest.getUsername())) {
-            userSaved=new User();
-        }else{
-        // Create new user's account
-        Optional<User> user = userRepository.findByUsername(signUpRequest.getUsername());
-         userSaved = user.get();
-        }
-        //SignupRequest user = new SignupRequest();
-
-        Set<Role> strRoles = signUpRequest.getRoles();
+    public ResponseEntity<MessageResponse> modifUser(@Valid @RequestBody UserDto signUpRequest) {
+        User userSaved = userRepository.findByUsername(signUpRequest.getUsername()).orElse(new User());
+        Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(RoleEnum.ADMIN)
@@ -156,7 +150,7 @@ public class AuthController {
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
-                Role adminRole = roleRepository.findByName(RoleEnum.valueOf(role.getName().toString().toUpperCase()))
+                Role adminRole = roleRepository.findByName(RoleEnum.valueOf(role.toUpperCase()))
                         .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                 roles.add(adminRole);
             });
@@ -165,37 +159,30 @@ public class AuthController {
         userSaved.setUsername(signUpRequest.getUsername());
         userSaved.setRoles(roles);
         userSaved.setEmail(signUpRequest.getEmail());
+        userSaved.setAgency(agencyDao.findByCode(signUpRequest.getCodeAgency()).orElse(null));
 
         if (signUpRequest.getPassword().equals("")) {
             userSaved.setPassword(userSaved.getPassword());
         } else {
             userSaved.setPassword(encoder.encode(signUpRequest.getPassword()));
         }
-        //userSaved.setPassword(encoder.encode(signUpRequest.getPassword()));
         userRepository.save(userSaved);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
     }
 
-    @PutMapping("/signdel")
-    public ResponseEntity<MessageResponse> deleteUser(@Valid @RequestBody SigndeleteRequest signUpRequest) {
-        if (!userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username N'est pas correcten!"));
+    @DeleteMapping("/{username}")
+    public ResponseEntity<MessageResponse> deleteUser(@PathVariable String username) {
+
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isPresent()) {
+            User userSaved = user.get();
+            userRepository.delete(userSaved);
+            return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
         }
+        return ResponseEntity
+                .badRequest()
+                .body(new MessageResponse("Error: Utilisateur n'existe pas"));
 
-        if (!userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email N'est pas correcte!"));
-        }
-
-        Optional<User> user = userRepository.findByUsername(signUpRequest.getUsername());
-        User userSaved = user.get();
-
-        userRepository.delete(userSaved);
-
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }

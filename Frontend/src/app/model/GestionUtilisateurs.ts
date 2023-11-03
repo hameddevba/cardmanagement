@@ -1,8 +1,7 @@
-import {Role} from "./Role";
-
-export interface GestionUtilisateurs {
-  username: string,
-  email: string,
-  password: string,
-  roles: Role[]
+export interface User {
+  username: string;
+  email: string;
+  password: string;
+  roles: string[];
+  codeAgency: string;
 }

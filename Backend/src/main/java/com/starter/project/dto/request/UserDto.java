@@ -1,25 +1,25 @@
 package com.starter.project.dto.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 import java.util.Set;
 
-public class SigndeleteRequest {
+import jakarta.validation.constraints.*;
+
+public class UserDto {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
 
     @NotBlank
-    @Size(max = 50)
     @Email
     private String email;
 
-    private Set<String> role;
+    private Set<String> roles;
 
-
+    @NotBlank
+    @Size(min = 6, max = 40)
     private String password;
+
+    private String codeAgency;
 
     public String getUsername() {
         return username;
@@ -45,11 +45,19 @@ public class SigndeleteRequest {
         this.password = password;
     }
 
-    public Set<String> getRole() {
-        return this.role;
+    public String getCodeAgency() {
+        return codeAgency;
     }
 
-    public void setRole(Set<String> role) {
-        this.role = role;
+    public void setCodeAgency(String codeAgency) {
+        this.codeAgency = codeAgency;
+    }
+
+    public Set<String> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
     }
 }

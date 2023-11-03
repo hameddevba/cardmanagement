@@ -1,7 +1,7 @@
-import { Role } from "./role";
+import { Role } from './role';
 
 export class User {
-    username!: String;
-    roles! :Role[];
-    token! :String;
-  }
+  username!: string;
+  roles!: Role[];
+  token!: string;
+}
