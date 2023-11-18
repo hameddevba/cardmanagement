@@ -21,5 +21,8 @@ public class AccountService {
     public List<Account> findAll() {
         return accountDao.findAll();
     }
+    public List<Account> find(String searchText,int size) {
+        return accountDao.find(searchText,size);
+    }
 
 }

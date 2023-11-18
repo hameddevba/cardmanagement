@@ -84,7 +84,6 @@ export class GestionUtilisateursComponent implements OnInit {
 
   saveEdit(id: string): void {
     const index = this.users.findIndex((item) => item.username === id);
-    console.log(this.editCache[id].data);
     this.service.update(this.editCache[id].data).subscribe(
       (response) => {
         if (response) {

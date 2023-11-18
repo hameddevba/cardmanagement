@@ -16,10 +16,9 @@ export class AuthInterceptor implements HttpInterceptor {
       req = req.clone({
         setHeaders: {
           Authorization: 'Bearer ' + authToken,
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://localhost:9999', // Replace with your Spring Boot API's origin
         },
       });
+
     return next.handle(req).pipe(
       catchError((error) => {
         if (

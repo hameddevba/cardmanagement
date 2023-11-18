@@ -23,7 +23,7 @@ public class Customer {
     @Column(name = "phone_number")
     private Long phoneNumber;
     @Column(name = "address")
-    private Long address;
+    private String address;
     public Long getId() {
         return id;
     }
@@ -79,11 +79,11 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public Long getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Long address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 }

@@ -41,6 +41,11 @@ public class Request {
     private Date smsSentDate;
     private Integer renewMonth;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "agency_id")
+    private Agency agency;
+
+
     public Long getId() {
         return id;
     }
@@ -143,5 +148,13 @@ public class Request {
 
     public void setRenewMonth(Integer renewMonth) {
         this.renewMonth = renewMonth;
+    }
+
+    public Agency getAgency() {
+        return agency;
+    }
+
+    public void setAgency(Agency agency) {
+        this.agency = agency;
     }
 }

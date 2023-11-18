@@ -17,3 +17,35 @@ export interface Request {
   smsSentDate: Date;
   renewMonth: number;
 }
+
+export interface RequestValidation {
+  account: string;
+  user: string;
+  cardType: string;
+  card: string;
+  observation: string;
+  creationDate: string;
+  rejectionReason: string;
+  cardLimit: string;
+  nameOnCard: string;
+  smsLang: string;
+  smsSentDate: string;
+  renewMonth: string;
+}
+
+export const emptyRequestValidation = (): RequestValidation => {
+  return {
+    account: '',
+    user: '',
+    cardType: '',
+    card: '',
+    observation: '',
+    creationDate: '',
+    rejectionReason: '',
+    cardLimit: '',
+    nameOnCard: '',
+    smsLang: '',
+    smsSentDate: '',
+    renewMonth: '',
+  } as RequestValidation;
+};

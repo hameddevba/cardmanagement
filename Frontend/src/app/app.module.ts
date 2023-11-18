@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -50,7 +50,7 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './shared/auth.guard';
-
+import { AccountService } from './service/account.service';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
@@ -110,7 +110,9 @@ const APP_CONTAINERS = [
     AuthService,
     AuthGuard,
     IconSetService,
+    AccountService,
     Title,
+    { provide: LOCALE_ID, useValue: 'fr' },
   ],
   bootstrap: [AppComponent],
 })

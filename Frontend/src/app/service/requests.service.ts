@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { PageableData } from 'src/app/model/PageableData';
@@ -16,5 +16,14 @@ export class RequestsService {
   }
   findById(id: string) {
     return this.http.get<Request>(environment.apiURL + `/api/requests/${id}`);
+  }
+
+  save(request: Request) {
+    const headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
+    return this.http.post<Request>(
+      environment.apiURL + `/api/requests`,
+      request,
+      { headers },
+    );
   }
 }

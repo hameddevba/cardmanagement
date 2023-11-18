@@ -13,7 +13,7 @@ public class CustomerDto {
     private String firstName;
     private Date birthDate;
     private Long phoneNumber;
-    private Long address;
+    private String address;
     public Long getId() {
         return id;
     }
@@ -69,11 +69,11 @@ public class CustomerDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public Long getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Long address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 }

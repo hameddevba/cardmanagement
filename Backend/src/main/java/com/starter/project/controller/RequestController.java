@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -38,6 +35,12 @@ public class RequestController {
     public ResponseEntity<RequestDto> find(@PathVariable("id") Long id) {
         Request request = requestService.findById(id);
         return ResponseEntity.ok(mapper.toDto(request));
+    }
+
+    @PostMapping
+    public ResponseEntity<RequestDto> save(RequestDto request) {
+        Request requestSaved = requestService.save(this.mapper.toModel(request));
+        return ResponseEntity.ok(mapper.toDto(requestSaved));
     }
 
 }

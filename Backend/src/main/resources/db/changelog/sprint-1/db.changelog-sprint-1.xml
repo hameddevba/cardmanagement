@@ -57,7 +57,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="nni" type="varchar2(30)"/>
-            <column name="title" type="number"/>
+            <column name="title" type="varchar2(50)"/>
             <column name="last_name" type="varchar2(30)" />
             <column name="first_name" type="varchar2(30)" />
             <column name="birth_date" type="timestamp" />
@@ -124,7 +124,12 @@
             <column name="sms_lang" type="number"/>
             <column name="sms_sent_date" type="timestamp"/>
             <column name="renew_month" type="number"/>
-            <column name="card_id" type="number"/>
+            <column name="card_id" type="number">
+                <constraints foreignKeyName="request_card" referencedColumnNames="id" referencedTableName="card"/>
+            </column>
+            <column name="agency_id" type="number">
+                <constraints foreignKeyName="request_agency" referencedColumnNames="id" referencedTableName="agency"/>
+            </column>
         </createTable>
         <createTable tableName="request_history">
             <column name="id" type="number" autoIncrement="true">

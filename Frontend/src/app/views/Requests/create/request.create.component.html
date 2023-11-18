@@ -3,72 +3,214 @@
     <c-card-body>
       <c-row>
         <c-col>
-          <h1>Demande {{ request?.id }}</h1>
+          <h1>Nouveau Demande</h1>
         </c-col>
       </c-row>
       <c-row class="row-detail">
         <c-col>
-          <label for="accountNumber"><strong>Numéro de compte</strong></label
-          ><br />
-          <input cFormControl name="accountNumber" />
-        </c-col>
-        <c-col>
-          <strong>Type de carte</strong><br />
-          <select cSelect>
-            <option *ngFor="let i of [1, 2]">{{ i }}</option>
-          </select>
-        </c-col>
-      </c-row>
-      <c-row class="row-detail">
-        <c-col>
-          <strong>Date de création</strong><br />
-          <c-header-text>{{ request?.creationDate | date }}</c-header-text>
-        </c-col>
-        <c-col>
-          <strong>Nom sur la carte</strong><br />
-          <c-header-text>{{ request?.nameOnCard }}</c-header-text>
-        </c-col>
-        <c-col>
-          <strong>Limite de la carte</strong><br />
-          <c-header-text>{{ request?.cardLimit }}</c-header-text>
+          <div class="mb-3">
+            <label cFormCheckLabel for="renew">Renouvellement</label>
+            <input
+              cFormCheckInput
+              id="renew"
+              type="checkbox"
+              [(ngModel)]="renew"
+            />
+          </div>
         </c-col>
       </c-row>
       <c-row class="row-detail">
         <c-col>
-          <strong>Mois de renouvellement</strong><br />
-          <c-header-text>{{ request?.renewMonth }}</c-header-text>
+          <div [cFormFloating]="true" class="mb-3">
+            <input
+              [valid]="validation.account ? false : undefined"
+              cFormControl
+              id="accountNumber"
+              [(ngModel)]="request.account"
+            />
+            <label cLabel for="accountNumber">Numéro de compte</label>
+            <c-form-feedback [valid]="validation.account ? false : undefined">{{
+              validation.account
+            }}</c-form-feedback>
+          </div>
         </c-col>
         <c-col>
-          <strong>Date d'envoie d'sms</strong><br />
-          <c-header-text>{{ request?.smsSentDate | date }}</c-header-text>
-        </c-col>
-        <c-col>
-          <strong>Langue de sms</strong><br />
-          <c-header-text>{{ request?.smsLang }}</c-header-text>
-        </c-col>
-      </c-row>
-      <c-row *ngIf="request?.card" class="row-detail">
-        <c-col>
-          <strong>Numero de carte</strong><br />
-          <c-header-text>{{ request?.card }}</c-header-text>
-        </c-col>
-      </c-row>
-      <c-row class="row-detail">
-        <c-col>
-          <strong>Observation</strong><br />
-          <c-header-text>{{ request?.observation }}</c-header-text>
+          <button cButton (click)="openModal()">Ajouter compte</button>
         </c-col>
       </c-row>
       <c-row class="row-detail">
         <c-col>
-          <strong>Raison de rejet</strong><br />
-          <c-header-text>{{ request?.rejectionReason }}</c-header-text>
+          <div [cFormFloating]="true" class="mb-3">
+            <select
+              cFormControl
+              cSelect
+              id="cardType"
+              [(ngModel)]="request.cardType"
+              [valid]="validation.cardType ? false : undefined"
+            >
+              <option
+                *ngFor="let cardType of cardTypes"
+                [value]="request.cardType"
+              >
+                {{ cardType.label }}
+              </option>
+            </select>
+            <label cLabel for="cardType">Type de carte</label>
+            <c-form-feedback
+              [valid]="validation.cardType ? false : undefined"
+              >{{ validation.cardType }}</c-form-feedback
+            >
+          </div>
+        </c-col>
+        <c-col>
+          <div [cFormFloating]="true" class="mb-3">
+            <input
+              [valid]="validation.nameOnCard ? false : undefined"
+              cFormControl
+              name="nameOnCard"
+              [(ngModel)]="request.nameOnCard"
+            />
+            <label cLabel for="nameOnCard">Nom sur la carte</label>
+            <c-form-feedback
+              [valid]="validation.nameOnCard ? false : undefined"
+              >{{ validation.nameOnCard }}</c-form-feedback
+            >
+          </div>
+        </c-col>
+        <c-col>
+          <div [cFormFloating]="true" class="mb-3">
+            <input
+              cFormControl
+              name="cardLimit"
+              [(ngModel)]="request.cardLimit"
+              type="number"
+              [valid]="validation.cardLimit ? false : undefined"
+            />
+            <label cLabel for="cardLimit">Limite de la carte</label>
+            <c-form-feedback
+              [valid]="validation.cardLimit ? false : undefined"
+              >{{ validation.cardLimit }}</c-form-feedback
+            >
+          </div>
+        </c-col>
+      </c-row>
+      <c-row class="row-detail">
+        <c-col>
+          <div [cFormFloating]="true" class="mb-3">
+            <select
+              cSelect
+              id="langSms"
+              [(ngModel)]="request.smsLang"
+              [valid]="validation.smsLang ? false : undefined"
+            >
+              <option value="AR">Arabe</option>
+              <option value="FR">Français</option>
+            </select>
+            <label cLabel for="langSms">Langue de sms</label>
+            <c-form-feedback [valid]="validation.smsLang ? false : undefined">{{
+              validation.smsLang
+            }}</c-form-feedback>
+          </div>
+        </c-col>
+      </c-row>
+      <c-row class="row-detail">
+        <c-col>
+          <div *ngIf="renew" [cFormFloating]="true" class="mb-3">
+            <select
+              cSelect
+              id="renewMonth"
+              [(ngModel)]="request.renewMonth"
+              [valid]="validation.renewMonth ? false : undefined"
+            >
+              <option *ngFor="let month of months; let i = index" [value]="i">
+                {{ month | date: "MMMM" }}
+              </option>
+            </select>
+            <label cLabel for="renewMonth">Mois de renouvellement</label>
+            <c-form-feedback
+              [valid]="validation.renewMonth ? false : undefined"
+              >{{ validation.renewMonth }}</c-form-feedback
+            >
+          </div>
+        </c-col>
+        <c-col>
+          <div *ngIf="renew" [cFormFloating]="true" class="mb-3">
+            <input
+              cFormControl
+              name="card"
+              [(ngModel)]="request.card"
+              [valid]="validation.card ? false : undefined"
+            />
+            <label cLabel for="card">Carte</label>
+            <c-form-feedback [valid]="validation.card ? false : undefined">{{
+              validation.card
+            }}</c-form-feedback>
+          </div>
+        </c-col>
+        <c-col>
+          <div *ngIf="renew" [cFormFloating]="true" class="mb-3">
+            <button cButton>Ajouter carte</button>
+          </div>
+        </c-col>
+      </c-row>
+      <c-row class="row-detail">
+        <c-col>
+          <div [cFormFloating]="true">
+            <textarea
+              cFormControl
+              id="observation"
+              [(ngModel)]="request.observation"
+              rows="5"
+              [ngStyle]="{ 'height.px': 150 }"
+            ></textarea>
+            <label cLabel for="observation">Observation</label>
+          </div>
+        </c-col>
+        <c-col>
+          <div cFormFloating class="mb-3">
+            <textarea
+              cFormControl
+              id="rejectionReason"
+              [(ngModel)]="request.rejectionReason"
+              [ngStyle]="{ 'height.px': 150 }"
+            ></textarea>
+            <label cLabel for="rejectionReason">Raison de rejet</label>
+          </div>
+        </c-col>
+      </c-row>
+      <c-row class="row-detail justify-content-md-center">
+        <c-col>
+          <button cButton (click)="save()">click</button>
         </c-col>
       </c-row>
     </c-card-body>
   </c-card>
 </c-container>
 
-<!-- 
-card:string;
--->
+<c-modal
+  id="liveDemoModal"
+  [visible]="modalOpen"
+  alignment="center"
+  (visibleChange)="handleModalChange($event)"
+>
+  <c-modal-body>
+    <c-row style="margin-bottom: 40px">
+      <label cLabel>Rajouter le compte</label>
+    </c-row>
+    <c-row>
+      <c-container>
+        <app-autocompleteinput
+          placeholder="chercher par numero de compte ou nom de client"
+          [fetchData]="fetchData"
+          [formatData]="formatData"
+        ></app-autocompleteinput>
+      </c-container>
+    </c-row>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="handleModalChange(false)" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary" (click)="addAccount()">Save changes</button>
+  </c-modal-footer>
+</c-modal>

@@ -10,6 +10,7 @@ import {
   FormModule,
   GridModule,
   HeaderModule,
+  ListGroupModule,
   ModalModule,
   NavModule,
   PaginationModule,
@@ -28,6 +29,9 @@ import { RequestCreateComponent } from './create/request.create.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RequestsRoutingModule } from './requests-routing.module';
 import { RequestsService } from '../../service/requests.service';
+import { CardTypeService } from '../../service/card.type.service';
+import { AccountService } from '../../service/account.service';
+import { AutocompleteinputComponent } from 'src/app/components/autocompleteinput/autocompleteinput.component';
 
 @NgModule({
   imports: [
@@ -45,6 +49,7 @@ import { RequestsService } from '../../service/requests.service';
     FormsModule,
     ButtonModule,
     HeaderModule,
+    ListGroupModule,
     ButtonGroupModule,
     ChartjsModule,
     AvatarModule,
@@ -58,7 +63,8 @@ import { RequestsService } from '../../service/requests.service';
     RequestsListComponent,
     RequestDetailsComponent,
     RequestCreateComponent,
+    AutocompleteinputComponent,
   ],
-  providers: [RequestsService],
+  providers: [RequestsService, CardTypeService, AccountService],
 })
 export class RequestsModule {}
