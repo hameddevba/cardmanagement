@@ -32,9 +32,7 @@ export enum Colors {
   styleUrls: ['request.create.component.scss'],
 })
 export class RequestCreateComponent implements OnInit {
-  selectAccount(event: any) {
-    console.log(event);
-  }
+  account?: Account;
   request: Request = {} as Request;
   renew = false;
   modalOpen = false;
@@ -50,15 +48,18 @@ export class RequestCreateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchData('');
     this.cardTypeService.findAll().subscribe((data) => {
       this.cardTypes = data;
     });
   }
   save() {
     this.validation = validateRequestForSave(this.request, this.renew);
+    console.log(
+      '🚀 ~ file: request.create.component.ts:58 ~ RequestCreateComponent ~ save ~ this.request:',
+      this.request,
+    );
 
-    if (isValid(this.validation)) return;
+    if (!isValid(this.validation)) return;
     this.service.save(this.request).subscribe({
       next: (data) => {
         this.request = data;
@@ -68,26 +69,20 @@ export class RequestCreateComponent implements OnInit {
       },
     });
   }
-  // handleInputChange() {
-  //   if (!this.searchText || this.searchText.length < 3) {
-  //     this.suggestions = [];
-  //     return;
-  //   }
-  //   this.accountService.find(this.searchText, 10).subscribe(
-  //     (data) => {
-  //       this.suggestions = data;
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     },
-  //   );
-  // }
-  addAccount(id?: number) {
-    console.log(id);
+  addAccount() {
+    this.request.account = this.account;
+    this.handleModalChange(false);
   }
   openModal() {
     this.modalOpen = true;
     this.searchText = '';
+  }
+  selectAccount(account: any) {
+    this.account = account;
+  }
+  cancelAccountSelection() {
+    this.account = undefined;
+    this.handleModalChange(false);
   }
 
   handleModalChange(event: boolean) {
@@ -95,10 +90,6 @@ export class RequestCreateComponent implements OnInit {
     this.searchText = '';
   }
   fetchData(seachWord: string): Observable<Account[]> {
-    console.log(
-      '🚀 ~ file: request.create.component.ts:99 ~ RequestCreateComponent ~ fetchData ~ this.accountService:',
-      this,
-    );
     return this.accountService.find(seachWord ?? '');
   }
   formatData(account: Account): string {

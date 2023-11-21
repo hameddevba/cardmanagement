@@ -14,10 +14,11 @@
 <div class="card" style="position: absolute w-100" [hidden]="!showSearches">
   <div class="search">
     <div
+      id="object.id"
+      class="search-result"
       *ngFor="let object of searchedObject; trackBy: trackById"
       tappable
-      (click)="setObject(object)"
-      class="search-result"
+      (mousedown)="setObject(object)"
     >
       {{ formatData(object) }}
     </div>

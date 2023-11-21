@@ -10,6 +10,7 @@ export const validateRequestForSave = (
 ): RequestValidation => {
   const validation = emptyRequestValidation();
   const MANDATORY_FIELD = 'Champ Obligatoire';
+
   if (!request.account) {
     validation.account = MANDATORY_FIELD;
   }

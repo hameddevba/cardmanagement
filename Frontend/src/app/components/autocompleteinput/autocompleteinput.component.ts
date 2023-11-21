@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   Input,
+  OnInit,
 } from '@angular/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import {
@@ -21,14 +22,21 @@ import { Account } from 'src/app/model/Account';
   templateUrl: './autocompleteinput.component.html',
   styleUrls: ['./autocompleteinput.component.scss'],
 })
-export class AutocompleteinputComponent {
+export class AutocompleteinputComponent implements OnInit {
   @ViewChild('searchInput') private searchInput!: ElementRef;
-  @Output() setObjectEvent = new EventEmitter<{ name: string }>();
+  @Output() objectSelect = new EventEmitter<{ objectSelected: any }>();
   @Input() placeholder = '';
   @Input() fetchData!: (searchWord: string) => Observable<any[]>;
   @Input() formatData!: (object: any) => string;
   showSearches = false;
   searchedObject: any[] = [];
+
+  ngOnInit(): void {
+    this.fetchData('').subscribe({
+      next: (data) => (this.searchedObject = data),
+      error: (error) => console.log(error),
+    });
+  }
 
   filter(name: string): Account[] {
     this.fetchData(name).subscribe((data) => {
@@ -56,10 +64,10 @@ export class AutocompleteinputComponent {
   trackById(index: number, item: any): void {
     return item._id;
   }
-  setObject(name: string) {
-    this.searchedObject = this.filter(name);
-    this.setObjectEvent.emit({ name });
-    this.searchInput.nativeElement.value = name;
+  setObject(objectSelected: any) {
+    this.searchedObject = this.filter(this.formatData(objectSelected));
+    this.objectSelect.emit({ objectSelected });
+    this.searchInput.nativeElement.value = this.formatData(objectSelected);
     this.showSearches = false;
   }
 }
