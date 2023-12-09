@@ -33,10 +33,10 @@ public class RequestService {
     }
     public Request save(Request request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userDao.findByUsername(authentication.getName()).orElse(null);
+        //User user = userDao.findByUsername(authentication.getName()).orElse(null);
         request.setCreationDate(new Date());
-        request.setUser(user);
-        request.setAgency(ofNullable(user).map(User::getAgency).orElse(null));
+        //request.setUser(user);
+        //request.setAgency(ofNullable(user).map(User::getAgency).orElse(null));
         return requestDao.save(request);
     }
 }

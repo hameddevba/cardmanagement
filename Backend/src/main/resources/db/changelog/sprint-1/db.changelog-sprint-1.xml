@@ -1,31 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+                   
     <changeSet id="29102023-1" author="otlig">
         <createTable tableName="users">
-            <column name="id" type="number" autoIncrement="true"/>
-            <column name="email" type="varchar2(50)" />
-            <column name="user_name" type="varchar2(50)"/>
-            <column name="pass_word" type="varchar2(120)" />
-            <column name="agency_id" type="number"/>
+            <column name="id" type="int" autoIncrement="true"/>
+            <column name="email" type="varchar(50)" />
+            <column name="user_name" type="varchar(50)"/>
+            <column name="pass_word" type="varchar(120)" />
+            <column name="agency_id" type="int"/>
         </createTable>
         <addPrimaryKey tableName="users" columnNames="id" />
         <addUniqueConstraint tableName="users" columnNames="user_name"/>
     </changeSet>
     <changeSet id="29102023-2" author="otlig">
         <createTable tableName="roles">
-            <column name="id" type="number" autoIncrement="true"/>
-            <column name="name" type="varchar2(20)" />
+            <column name="id" type="int" autoIncrement="true"/>
+            <column name="name" type="varchar(20)" />
         </createTable>
         <addPrimaryKey tableName="roles" columnNames="id"/>
     </changeSet>
 
     <changeSet id="29102023-3" author="otlig">
         <createTable tableName="user_roles">
-            <column name="user_id" type="number" />
-            <column name="role_id" type="number" />
+            <column name="user_id" type="int" />
+            <column name="role_id" type="int" />
         </createTable>
         <addPrimaryKey tableName="user_roles" columnNames="user_id,role_id"/>
         <addForeignKeyConstraint constraintName="user_id_fk" baseTableName="user_roles"
@@ -43,59 +44,59 @@
 
     <changeSet id="29102023-5" author="otlig">
         <createTable tableName="agency">
-            <column name="id" type="number" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="code" type="varchar2(5)" />
-            <column name="label" type="varchar2(50)" />
-            <column name="city" type="varchar2(50)"/>
-            <column name="area_code" type="varchar2(20)" />
+            <column name="code" type="varchar(5)" />
+            <column name="label" type="varchar(50)" />
+            <column name="city" type="varchar(50)"/>
+            <column name="area_code" type="varchar(20)" />
         </createTable>
 
         <createTable tableName="customer">
-            <column name="id" type="number" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="nni" type="varchar2(30)"/>
-            <column name="title" type="varchar2(50)"/>
-            <column name="last_name" type="varchar2(30)" />
-            <column name="first_name" type="varchar2(30)" />
+            <column name="nni" type="varchar(30)"/>
+            <column name="title" type="varchar(50)"/>
+            <column name="last_name" type="varchar(30)" />
+            <column name="first_name" type="varchar(30)" />
             <column name="birth_date" type="timestamp" />
-            <column name="phone_number" type="number"/>
-            <column name="address" type="varchar2(100)" />
+            <column name="phone_number" type="int"/>
+            <column name="address" type="varchar(100)" />
         </createTable>
         <addForeignKeyConstraint constraintName="user_agency_fk" baseTableName="users" baseColumnNames="agency_id"
                                  referencedTableName="agency" referencedColumnNames="id"/>
 
         <createTable tableName="account">
-            <column name="id" type="number" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="account_number" type="varchar2(15)"/>
-            <column name="agency_id" type="number">
+            <column name="account_number" type="varchar(15)"/>
+            <column name="agency_id" type="int">
                 <constraints foreignKeyName="agency_account" referencedColumnNames="id" referencedTableName="agency"/>
             </column>
-            <column name="customer_id" type="number">
+            <column name="customer_id" type="int">
                 <constraints foreignKeyName="costumer_account" referencedColumnNames="id" referencedTableName="customer"/>
             </column>
         </createTable>
 
         <createTable tableName="card_type">
-            <column name="id" type="number" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="code" type="varchar2(20)"/>
-            <column name="label" type="varchar2(100)"/>
+            <column name="code" type="varchar(20)"/>
+            <column name="label" type="varchar(100)"/>
         </createTable>
 
         <createTable tableName="card">
-            <column name="id" type="number" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="account_id" type="number">
+            <column name="account_id" type="int">
                 <constraints foreignKeyName="card_account" referencedColumnNames="id" referencedTableName="account"/>
             </column>
-            <column name="type" type="number">
+            <column name="type" type="int">
                 <constraints foreignKeyName="card_type" referencedColumnNames="id" referencedTableName="card_type"/>
             </column>
             <column name="activation_date" type="timestamp"/>
@@ -104,43 +105,43 @@
         </createTable>
 
         <createTable tableName="request">
-            <column name="id" type="number" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="account_id" type="number">
+            <column name="account_id" type="int">
                 <constraints foreignKeyName="request_account" referencedColumnNames="id" referencedTableName="account"/>
             </column>
-            <column name="user_id" type="number">
+            <column name="user_id" type="int">
                 <constraints foreignKeyName="request_user" referencedColumnNames="id" referencedTableName="users"/>
             </column>
-            <column name="observation" type="varchar2(255)"/>
+            <column name="observation" type="varchar(255)"/>
             <column name="creation_date" type="timestamp"/>
-            <column name="rejection_reason" type="varchar2(255)"/>
-            <column name="card_type_id" type="number">
+            <column name="rejection_reason" type="varchar(255)"/>
+            <column name="card_type_id" type="int">
                 <constraints foreignKeyName="request_card_type" referencedColumnNames="id" referencedTableName="card_type"/>
             </column>
-            <column name="card_limit" type="number"/>
-            <column name="name_on_card" type="varchar2(100)"/>
-            <column name="sms_lang" type="number"/>
+            <column name="card_limit" type="int"/>
+            <column name="name_on_card" type="varchar(100)"/>
+            <column name="sms_lang" type="int"/>
             <column name="sms_sent_date" type="timestamp"/>
-            <column name="renew_month" type="number"/>
-            <column name="card_id" type="number">
+            <column name="renew_month" type="int"/>
+            <column name="card_id" type="int">
                 <constraints foreignKeyName="request_card" referencedColumnNames="id" referencedTableName="card"/>
             </column>
-            <column name="agency_id" type="number">
+            <column name="agency_id" type="int">
                 <constraints foreignKeyName="request_agency" referencedColumnNames="id" referencedTableName="agency"/>
             </column>
         </createTable>
         <createTable tableName="request_history">
-            <column name="id" type="number" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="request_id" type="number">
+            <column name="request_id" type="int">
                 <constraints foreignKeyName="request_history" referencedColumnNames="id" referencedTableName="request"/>
             </column>
             <column name="start_date" type="timestamp"/>
-            <column name="status" type="number(1)"/>
+            <column name="status" type="int(1)"/>
         </createTable>
     </changeSet>
 
-</databaseChangeLog>
+</databaseChangeLog> -->

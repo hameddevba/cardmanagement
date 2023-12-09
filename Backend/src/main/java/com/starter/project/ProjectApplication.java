@@ -40,7 +40,7 @@ public class ProjectApplication implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        //createRequest();
+        createRequest();
 
     }
 
